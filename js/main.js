@@ -26,6 +26,73 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// ========================
+// Parallax Scrolling Effect
+// ========================
+function setupParallax() {
+  const parallaxElements = document.querySelectorAll('[data-parallax]');
+  
+  if (parallaxElements.length === 0) return;
+  
+  const handleScroll = () => {
+    parallaxElements.forEach(element => {
+      const scrollPosition = window.scrollY;
+      const elementOffset = element.offsetTop;
+      const distance = scrollPosition - elementOffset;
+      const speed = element.getAttribute('data-parallax') || 0.5;
+      
+      if (distance > -element.offsetHeight && distance < window.innerHeight) {
+        element.style.transform = `translateY(${distance * speed}px)`;
+      }
+    });
+  };
+  
+  window.addEventListener('scroll', handleScroll, { passive: true });
+}
+
+// ========================
+// Intersection Observer for Animations
+// ========================
+function setupAnimations() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-fade-in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+  
+  // Observe sections and cards
+  document.querySelectorAll('.section, .card, h2, h3').forEach(element => {
+    if (!element.classList.contains('animate-fade-in')) {
+      observer.observe(element);
+    }
+  });
+}
+
+// ========================
+// Soft Float Animation on Hover
+// ========================
+function setupFloatAnimation() {
+  const cards = document.querySelectorAll('.card');
+  
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      this.style.animation = 'softFloat 2s ease-in-out infinite';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      this.style.animation = 'none';
+    });
+  });
+}
+
 // Form Validation
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,9 +116,11 @@ document.addEventListener('DOMContentLoaded', function() {
       requiredFields.forEach(field => {
         if (!field.value.trim()) {
           isValid = false;
-          field.style.borderColor = '#ff8c42';
+          field.style.borderColor = '#d4a5a5';
+          field.style.boxShadow = '0 0 0 3px rgba(212, 165, 165, 0.3)';
         } else {
           field.style.borderColor = '';
+          field.style.boxShadow = '';
         }
       });
       
@@ -70,7 +139,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     if (href !== '#' && document.querySelector(href)) {
       e.preventDefault();
       document.querySelector(href).scrollIntoView({
-        behavior: 'smooth'
+        behavior: 'smooth',
+        block: 'start'
       });
     }
   });
@@ -84,8 +154,21 @@ document.addEventListener('DOMContentLoaded', function() {
   navLinks.forEach(link => {
     if (link.getAttribute('href') === currentLocation || 
         (currentLocation === '/' && link.getAttribute('href') === 'index.html')) {
-      link.style.color = 'var(--orange-pumpkin)';
-      link.style.borderBottom = '2px solid var(--orange-pumpkin)';
+      link.style.color = 'var(--rose-gold)';
     }
   });
+});
+
+// ========================
+// Initialize All Effects
+// ========================
+document.addEventListener('DOMContentLoaded', function() {
+  setupParallax();
+  setupAnimations();
+  setupFloatAnimation();
+});
+
+// Re-run animations on page resize
+window.addEventListener('resize', function() {
+  setupParallax();
 });
