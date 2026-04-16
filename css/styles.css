@@ -12,8 +12,8 @@
   /* Soft, Cohesive Color Palette: Navy & Honey */
   --navy-soft: #3D5A73;
   --navy-dark: #2C3E50;
-  --honey-warm: #D4A574;
-  --honey-pale: #E8D4B8;
+  --honey-warm: #E8945C;
+  --honey-pale: #F0B878;
   --cream-pale: #FEEECD;
   --cream-warm: #E3D6C5;
   --cream-extra-light: #F0EDEA;
@@ -374,14 +374,14 @@ nav a:hover:after {
   border: none;
   text-decoration: none;
   font-family: var(--font-primary);
-  box-shadow: 0 10px 30px rgba(212, 165, 116, 0.2);
+  box-shadow: 0 10px 30px rgba(232, 148, 92, 0.2);
   position: relative;
   overflow: hidden;
 }
 
 .btn:hover {
   transform: translateY(-4px);
-  box-shadow: 0 15px 40px rgba(212, 165, 116, 0.3);
+  box-shadow: 0 15px 40px rgba(232, 148, 92, 0.3);
 }
 
 .btn-primary {
@@ -450,7 +450,7 @@ nav a:hover:after {
 .card-light {
   background: linear-gradient(135deg, var(--cream-extra-light) 0%, var(--cream-pale) 100%);
   box-shadow: none;
-  border: 1px solid rgba(212, 165, 116, 0.15);
+  border: 1px solid rgba(232, 148, 92, 0.15);
 }
 
 .stat-box {
@@ -459,13 +459,13 @@ nav a:hover:after {
   background: linear-gradient(135deg, var(--cream-extra-light) 0%, var(--cream-warm) 100%);
   border-radius: var(--radius-lg);
   border-left: 4px solid var(--honey-warm);
-  box-shadow: 0 10px 30px rgba(212, 165, 116, 0.12);
+  box-shadow: 0 10px 30px rgba(232, 148, 92, 0.12);
   transition: var(--transition-slow);
 }
 
 .stat-box:hover {
   transform: translateY(-4px);
-  box-shadow: 0 15px 40px rgba(212, 165, 116, 0.2);
+  box-shadow: 0 15px 40px rgba(232, 148, 92, 0.2);
 }
 
 .stat-box-number {
@@ -522,7 +522,7 @@ select:focus {
   outline: none;
   border-color: var(--honey-warm);
   background-color: var(--white);
-  box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.15);
+  box-shadow: 0 0 0 4px rgba(232, 148, 92, 0.15);
 }
 
 textarea {
@@ -596,7 +596,7 @@ footer {
   justify-content: center;
   width: 45px;
   height: 45px;
-  background-color: rgba(212, 165, 116, 0.2);
+  background-color: rgba(232, 148, 92, 0.2);
   border-radius: 50%;
   color: var(--honey-pale);
   transition: var(--transition);
@@ -637,7 +637,7 @@ footer {
   right: -10%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(212, 165, 116, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(232, 148, 92, 0.15) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
