@@ -754,6 +754,20 @@ footer {
   padding: var(--spacing-2xl) var(--spacing-md);
 }
 
+/* Ensure buttons in carousel have correct colors */
+.carousel-content .btn-secondary {
+  color: var(--white) !important;
+}
+
+.carousel-content .btn-tertiary {
+  color: var(--navy-dark) !important;
+}
+
+.carousel-content .btn-outline {
+  color: var(--white) !important;
+  border-color: var(--white) !important;
+}
+
 .carousel-content h1 {
   color: white;
   font-size: 3rem;
