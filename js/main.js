@@ -164,14 +164,23 @@ document.addEventListener('DOMContentLoaded', function() {
 // ========================
 function initCarousel() {
   const carousel = document.getElementById('heroCarousel');
-  if (!carousel) return;
+  if (!carousel) {
+    console.log('Carousel element not found');
+    return;
+  }
   
+  console.log('Carousel element found');
   const slides = carousel.querySelectorAll('.carousel-slide');
+  console.log(`Found ${slides.length} carousel slides`);
+  
   const prevBtn = document.getElementById('carouselPrev');
   const nextBtn = document.getElementById('carouselNext');
   const indicatorsContainer = document.getElementById('carouselIndicators');
   
-  if (slides.length === 0) return;
+  if (slides.length === 0) {
+    console.log('No slides found, carousel not initialized');
+    return;
+  }
   
   let currentSlide = 0;
   let autoplayTimeout;
