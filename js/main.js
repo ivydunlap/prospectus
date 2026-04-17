@@ -160,94 +160,250 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ========================
-// Photo Carousel
+// Cinematic Photo Carousel
 // ========================
 function initCarousel() {
   const carousel = document.getElementById('heroCarousel');
   if (!carousel) return;
-  
-  const slides = carousel.querySelectorAll('.carousel-slide');
+
+  const track = document.getElementById('carouselTrack');
+  const slides = Array.from(track.querySelectorAll('.carousel-slide'));
   const prevBtn = document.getElementById('carouselPrev');
   const nextBtn = document.getElementById('carouselNext');
   const indicatorsContainer = document.getElementById('carouselIndicators');
-  
+  const progressBar = document.getElementById('carouselProgress');
+  const pauseBtn = document.getElementById('carouselPause');
+  const liveRegion = document.getElementById('carouselLive');
+
   if (slides.length === 0) return;
-  
+
+  // --- Config ---
+  const AUTOPLAY_INTERVAL = 7000;
+  const TRANSITION_DURATION = 1400;
+  const KEN_BURNS_DURATION = 8000;
+  const kenBurnsVariants = ['kenBurns1', 'kenBurns2', 'kenBurns3', 'kenBurns4', 'kenBurns5'];
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   let currentSlide = 0;
-  let autoplayTimeout;
-  
-  // Create indicators
-  slides.forEach((_, index) => {
-    const indicator = document.createElement('button');
-    indicator.className = `carousel-indicator ${index === 0 ? 'active' : ''}`;
-    indicator.setAttribute('aria-label', `Go to slide ${index + 1}`);
-    indicator.addEventListener('click', () => {
-      clearTimeout(autoplayTimeout);
-      goToSlide(index);
-      startAutoplay();
-    });
-    indicatorsContainer.appendChild(indicator);
+  let isTransitioning = false;
+  let autoplayTimer = null;
+  let isPaused = false;
+  let lastKenBurns = -1;
+
+  // --- Build indicators ---
+  slides.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'carousel-indicator' + (i === 0 ? ' active' : '');
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    btn.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    btn.addEventListener('click', () => goToSlide(i));
+    indicatorsContainer.appendChild(btn);
   });
-  
-  function updateSlide() {
-    // Update slides
-    slides.forEach((slide, index) => {
-      slide.classList.toggle('active', index === currentSlide);
+
+  const indicators = Array.from(indicatorsContainer.querySelectorAll('.carousel-indicator'));
+
+  // --- Ken Burns effect ---
+  function applyKenBurns(slide) {
+    if (prefersReducedMotion) return;
+    const img = slide.querySelector('img');
+    if (!img) return;
+    let idx;
+    do {
+      idx = Math.floor(Math.random() * kenBurnsVariants.length);
+    } while (idx === lastKenBurns && kenBurnsVariants.length > 1);
+    lastKenBurns = idx;
+    img.style.willChange = 'transform';
+    img.style.animation = 'none';
+    void img.offsetWidth; // force reflow
+    img.style.animation = kenBurnsVariants[idx] + ' ' + KEN_BURNS_DURATION + 'ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+  }
+
+  // --- will-change management ---
+  function updateWillChange(index) {
+    slides.forEach(function(s, i) {
+      var img = s.querySelector('img');
+      if (!img) return;
+      var isNear = Math.abs(i - index) <= 1 ||
+        (index === 0 && i === slides.length - 1) ||
+        (index === slides.length - 1 && i === 0);
+      img.style.willChange = isNear ? 'transform' : 'auto';
     });
-    
-    // Update indicators
-    document.querySelectorAll('.carousel-indicator').forEach((indicator, index) => {
-      indicator.classList.toggle('active', index === currentSlide);
-    });
   }
-  
-  function nextSlide() {
-    currentSlide = (currentSlide + 1) % slides.length;
-    updateSlide();
-  }
-  
-  function prevSlide() {
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    updateSlide();
-  }
-  
+
+  // --- Slide transition ---
   function goToSlide(index) {
-    currentSlide = index % slides.length;
-    updateSlide();
+    if (isTransitioning || index === currentSlide) return;
+    isTransitioning = true;
+
+    slides[currentSlide].classList.remove('active');
+    slides[index].classList.add('active');
+    applyKenBurns(slides[index]);
+    updateWillChange(index);
+
+    indicators[currentSlide].classList.remove('active');
+    indicators[currentSlide].setAttribute('aria-selected', 'false');
+    indicators[index].classList.add('active');
+    indicators[index].setAttribute('aria-selected', 'true');
+
+    currentSlide = index;
+
+    // Announce to screen readers
+    if (liveRegion) {
+      liveRegion.textContent = 'Slide ' + (index + 1) + ' of ' + slides.length;
+    }
+
+    // Preload the next slide's image
+    var nextIdx = (index + 1) % slides.length;
+    var nextImg = slides[nextIdx].querySelector('img');
+    if (nextImg && !nextImg.complete) {
+      var preloadNext = new Image();
+      preloadNext.src = nextImg.src;
+    }
+
+    setTimeout(() => { isTransitioning = false; }, TRANSITION_DURATION);
+    resetAutoplay();
   }
-  
-  function startAutoplay() {
-    autoplayTimeout = setTimeout(() => {
-      nextSlide();
-      startAutoplay();
-    }, 5000); // Change slide every 5 seconds
+
+  function nextSlide() {
+    goToSlide((currentSlide + 1) % slides.length);
   }
-  
-  // Event listeners
-  if (prevBtn) prevBtn.addEventListener('click', () => {
-    clearTimeout(autoplayTimeout);
-    prevSlide();
-    startAutoplay();
+
+  function prevSlide() {
+    goToSlide((currentSlide - 1 + slides.length) % slides.length);
+  }
+
+  // --- Autoplay with progress bar ---
+  function startProgress() {
+    if (!progressBar) return;
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    progressBar.classList.remove('animating');
+    void progressBar.offsetWidth;
+    progressBar.classList.add('animating');
+    progressBar.style.transition = 'width ' + AUTOPLAY_INTERVAL + 'ms linear';
+    progressBar.style.width = '100%';
+  }
+
+  function stopProgress() {
+    if (!progressBar) return;
+    const w = getComputedStyle(progressBar).width;
+    progressBar.classList.remove('animating');
+    progressBar.style.transition = 'none';
+    progressBar.style.width = w;
+  }
+
+  function resetAutoplay() {
+    clearTimeout(autoplayTimer);
+    if (!isPaused) {
+      startProgress();
+      autoplayTimer = setTimeout(nextSlide, AUTOPLAY_INTERVAL);
+    }
+  }
+
+  function pause() {
+    isPaused = true;
+    carousel.classList.add('paused');
+    clearTimeout(autoplayTimer);
+    stopProgress();
+  }
+
+  function resume() {
+    isPaused = false;
+    carousel.classList.remove('paused');
+    resetAutoplay();
+  }
+
+  // --- Controls ---
+  prevBtn.addEventListener('click', prevSlide);
+  nextBtn.addEventListener('click', nextSlide);
+
+  // Hover pause/resume
+  carousel.addEventListener('mouseenter', pause);
+  carousel.addEventListener('mouseleave', function() {
+    if (!userPaused) resume();
   });
-  
-  if (nextBtn) nextBtn.addEventListener('click', () => {
-    clearTimeout(autoplayTimeout);
-    nextSlide();
-    startAutoplay();
+
+  // Pause/play button
+  var userPaused = false;
+  if (pauseBtn) {
+    pauseBtn.addEventListener('click', function() {
+      userPaused = !userPaused;
+      if (userPaused) {
+        pause();
+        pauseBtn.setAttribute('aria-label', 'Play slideshow');
+        pauseBtn.querySelector('.carousel-pause-icon').style.display = 'none';
+        pauseBtn.querySelector('.carousel-play-icon').style.display = 'block';
+      } else {
+        resume();
+        pauseBtn.setAttribute('aria-label', 'Pause slideshow');
+        pauseBtn.querySelector('.carousel-pause-icon').style.display = 'block';
+        pauseBtn.querySelector('.carousel-play-icon').style.display = 'none';
+      }
+    });
+  }
+
+  // Keyboard navigation
+  carousel.setAttribute('tabindex', '0');
+  carousel.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); nextSlide(); }
   });
-  
-  // Pause autoplay on hover
-  carousel.addEventListener('mouseenter', () => {
-    clearTimeout(autoplayTimeout);
+
+  // --- Touch / swipe ---
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchDeltaX = 0;
+  let isSwiping = false;
+
+  carousel.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchDeltaX = 0;
+    isSwiping = false;
+  }, { passive: true });
+
+  carousel.addEventListener('touchmove', function(e) {
+    const dx = e.touches[0].clientX - touchStartX;
+    const dy = e.touches[0].clientY - touchStartY;
+    if (!isSwiping && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+      isSwiping = true;
+    }
+    if (isSwiping) {
+      touchDeltaX = dx;
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  carousel.addEventListener('touchend', function() {
+    if (isSwiping) {
+      if (touchDeltaX > 50) prevSlide();
+      else if (touchDeltaX < -50) nextSlide();
+    }
+    isSwiping = false;
+  }, { passive: true });
+
+  // --- Visibility change ---
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) pause();
+    else if (!userPaused) resume();
   });
-  
-  carousel.addEventListener('mouseleave', () => {
-    startAutoplay();
-  });
-  
-  // Initialize
-  updateSlide();
-  startAutoplay();
+
+  // --- Preload adjacent images ---
+  for (var i = 0; i < Math.min(3, slides.length); i++) {
+    var img = slides[i].querySelector('img');
+    if (img && !img.complete) {
+      var preload = new Image();
+      preload.src = img.src;
+    }
+  }
+
+  // --- Initialize ---
+  applyKenBurns(slides[0]);
+  updateWillChange(0);
+  if (!prefersReducedMotion) {
+    resetAutoplay();
+  }
 }
 
 // ========================

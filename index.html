@@ -31,40 +31,96 @@
 
   <!-- Main Content -->
   <main>
-    <!-- Hero Section with Photo Carousel -->
-    <section class="hero hero-carousel" id="heroCarousel">
-      <div class="carousel-container">
-        <img class="carousel-slide active" src="/assets/images/027A4919.jpeg" alt="Ministry moment">
-        <img class="carousel-slide" src="/assets/images/IMG_1802.jpeg" alt="Ministry moment">
-        <img class="carousel-slide" src="/assets/images/IMG_1947.jpeg" alt="Ministry moment">
-        <img class="carousel-slide" src="/assets/images/IMG_1949.jpeg" alt="Ministry moment">
-        <img class="carousel-slide" src="/assets/images/IMG_2102.jpeg" alt="Ministry moment">
-        <img class="carousel-slide" src="/assets/images/IMG_2105.jpeg" alt="Ministry moment">
-        <img class="carousel-slide" src="/assets/images/IMG_2116.jpeg" alt="Ministry moment">
-        <img class="carousel-slide" src="/assets/images/IMG_2206.jpeg" alt="Ministry moment">
-        <img class="carousel-slide" src="/assets/images/IMG_2347.jpeg" alt="Ministry moment">
-        
-        <!-- Gradient Overlay -->
+    <!-- Hero: Cinematic Photo Carousel -->
+    <section class="hero-carousel" id="heroCarousel" aria-roledescription="carousel" aria-label="Ministry photo gallery">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide active" aria-roledescription="slide" aria-label="Slide 1 of 15">
+            <img src="/assets/images/027A4919.jpeg" alt="Meaningful connections during ministry outreach" loading="eager" fetchpriority="high" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 2 of 15">
+            <img src="/assets/images/IMG_0004.jpeg" alt="Community life and fellowship in Manila" loading="eager" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 3 of 15">
+            <img src="/assets/images/IMG_0006.jpeg" alt="Building relationships in the neighborhood" loading="eager" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 4 of 15">
+            <img src="/assets/images/IMG_0012.jpeg" alt="Joy and laughter with local children" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 5 of 15">
+            <img src="/assets/images/IMG_0020.jpeg" alt="Daily life in ministry service" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 6 of 15">
+            <img src="/assets/images/IMG_1802.jpeg" alt="Worship and discipleship moments" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 7 of 15">
+            <img src="/assets/images/IMG_1947.jpeg" alt="Sharing hope in the community" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 8 of 15">
+            <img src="/assets/images/IMG_1949.jpeg" alt="Children engaged in learning and play" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 9 of 15">
+            <img src="/assets/images/IMG_2102.jpeg" alt="Outreach and engagement with families" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 10 of 15">
+            <img src="/assets/images/IMG_2105.jpeg" alt="Teamwork in ministry activities" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 11 of 15">
+            <img src="/assets/images/IMG_2116.jpeg" alt="Community gathering and fellowship" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 12 of 15">
+            <img src="/assets/images/IMG_2206.jpeg" alt="Vibrant moments from Manila outreach" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 13 of 15">
+            <img src="/assets/images/IMG_2347.jpeg" alt="Volunteers serving alongside local families" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 14 of 15">
+            <img src="/assets/images/IMG_8860.jpeg" alt="Everyday beauty in Manila neighborhoods" loading="lazy" draggable="false">
+          </div>
+          <div class="carousel-slide" aria-roledescription="slide" aria-label="Slide 15 of 15">
+            <img src="/assets/images/IMG_9043.jpeg" alt="The Kids International Ministries team" loading="lazy" draggable="false">
+          </div>
+        </div>
+
+        <!-- Cinematic gradient overlay -->
         <div class="carousel-overlay"></div>
-        
-        <!-- Carousel Controls -->
-        <button class="carousel-control carousel-prev" id="carouselPrev" aria-label="Previous slide">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M25 10L15 20L25 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Navigation arrows (appear on hover / always visible on touch) -->
+        <button class="carousel-arrow carousel-arrow--prev" id="carouselPrev" aria-label="Previous photo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
-        <button class="carousel-control carousel-next" id="carouselNext" aria-label="Next slide">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 10L25 20L15 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <button class="carousel-arrow carousel-arrow--next" id="carouselNext" aria-label="Next photo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
         </button>
-        
-        <!-- Carousel Indicators -->
-        <div class="carousel-indicators" id="carouselIndicators"></div>
+
+        <!-- Progress bar & slide indicators -->
+        <div class="carousel-bottom-bar">
+          <div class="carousel-indicators" id="carouselIndicators" role="tablist" aria-label="Slide navigation"></div>
+          <div class="carousel-progress-row">
+            <div class="carousel-progress">
+              <div class="carousel-progress-fill" id="carouselProgress"></div>
+            </div>
+            <button class="carousel-pause-btn" id="carouselPause" aria-label="Pause slideshow">
+              <svg class="carousel-pause-icon" width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                <rect x="2" y="1" width="4" height="12" rx="1"></rect>
+                <rect x="8" y="1" width="4" height="12" rx="1"></rect>
+              </svg>
+              <svg class="carousel-play-icon" width="14" height="14" viewBox="0 0 14 14" fill="currentColor" style="display:none">
+                <polygon points="3,1 13,7 3,13"></polygon>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <!-- Screen reader live region -->
+        <div class="sr-only" aria-live="polite" aria-atomic="true" id="carouselLive"></div>
       </div>
-      
-      <!-- Overlay Content -->
-      <div class="container carousel-content">
+
+      <!-- Hero content overlay -->
+      <div class="container carousel-hero-content">
         <p class="hero-intro">
           I'm serving long‑term in Manila, Philippines with Kids International Ministries. My heart is to invest deeply in relationships, discipleship, and everyday ministry life in the community. This space is where I share updates, stories, prayer needs, and ways you can partner with what God is doing in Manila.
         </p>
