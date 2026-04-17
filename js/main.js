@@ -160,12 +160,104 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ========================
+// Photo Carousel
+// ========================
+function initCarousel() {
+  const carousel = document.getElementById('heroCarousel');
+  if (!carousel) return;
+  
+  const slides = carousel.querySelectorAll('.carousel-slide');
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+  const indicatorsContainer = document.getElementById('carouselIndicators');
+  
+  if (slides.length === 0) return;
+  
+  let currentSlide = 0;
+  let autoplayTimeout;
+  
+  // Create indicators
+  slides.forEach((_, index) => {
+    const indicator = document.createElement('button');
+    indicator.className = `carousel-indicator ${index === 0 ? 'active' : ''}`;
+    indicator.setAttribute('aria-label', `Go to slide ${index + 1}`);
+    indicator.addEventListener('click', () => {
+      clearTimeout(autoplayTimeout);
+      goToSlide(index);
+      startAutoplay();
+    });
+    indicatorsContainer.appendChild(indicator);
+  });
+  
+  function updateSlide() {
+    // Update slides
+    slides.forEach((slide, index) => {
+      slide.classList.toggle('active', index === currentSlide);
+    });
+    
+    // Update indicators
+    document.querySelectorAll('.carousel-indicator').forEach((indicator, index) => {
+      indicator.classList.toggle('active', index === currentSlide);
+    });
+  }
+  
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    updateSlide();
+  }
+  
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    updateSlide();
+  }
+  
+  function goToSlide(index) {
+    currentSlide = index % slides.length;
+    updateSlide();
+  }
+  
+  function startAutoplay() {
+    autoplayTimeout = setTimeout(() => {
+      nextSlide();
+      startAutoplay();
+    }, 5000); // Change slide every 5 seconds
+  }
+  
+  // Event listeners
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    clearTimeout(autoplayTimeout);
+    prevSlide();
+    startAutoplay();
+  });
+  
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    clearTimeout(autoplayTimeout);
+    nextSlide();
+    startAutoplay();
+  });
+  
+  // Pause autoplay on hover
+  carousel.addEventListener('mouseenter', () => {
+    clearTimeout(autoplayTimeout);
+  });
+  
+  carousel.addEventListener('mouseleave', () => {
+    startAutoplay();
+  });
+  
+  // Initialize
+  updateSlide();
+  startAutoplay();
+}
+
+// ========================
 // Initialize All Effects
 // ========================
 document.addEventListener('DOMContentLoaded', function() {
   setupParallax();
   setupAnimations();
   setupFloatAnimation();
+  initCarousel();
 });
 
 // Re-run animations on page resize

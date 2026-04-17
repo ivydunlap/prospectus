@@ -31,9 +31,37 @@
 
   <!-- Main Content -->
   <main>
-    <!-- Hero Section -->
-    <section class="hero" style="background-image: linear-gradient(135deg, rgba(254, 238, 205, 0.92) 0%, rgba(227, 214, 197, 0.92) 50%, rgba(240, 237, 234, 0.92) 100%), url('/assets/images/IMG_2105.jpeg'); background-size: cover; background-position: center;">
-      <div class="container">
+    <!-- Hero Section with Photo Carousel -->
+    <section class="hero hero-carousel" id="heroCarousel">
+      <div class="carousel-container">
+        <div class="carousel-slide active" style="background-image: url('/assets/images/027A4919.jpeg')"></div>
+        <div class="carousel-slide" style="background-image: url('/assets/images/IMG_1802.jpeg')"></div>
+        <div class="carousel-slide" style="background-image: url('/assets/images/IMG_1947.jpeg')"></div>
+        <div class="carousel-slide" style="background-image: url('/assets/images/IMG_1949.jpeg')"></div>
+        <div class="carousel-slide" style="background-image: url('/assets/images/IMG_2102.jpeg')"></div>
+        <div class="carousel-slide" style="background-image: url('/assets/images/IMG_2105.jpeg')"></div>
+        <div class="carousel-slide" style="background-image: url('/assets/images/IMG_2116.jpeg')"></div>
+        <div class="carousel-slide" style="background-image: url('/assets/images/IMG_2206.jpeg')"></div>
+        <div class="carousel-slide" style="background-image: url('/assets/images/IMG_2347.jpeg')"></div>
+        
+        <!-- Carousel Controls -->
+        <button class="carousel-control carousel-prev" id="carouselPrev" aria-label="Previous slide">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M25 10L15 20L25 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="carousel-control carousel-next" id="carouselNext" aria-label="Next slide">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 10L25 20L15 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators" id="carouselIndicators"></div>
+      </div>
+      
+      <!-- Overlay Content -->
+      <div class="container carousel-content">
         <h1>Hi, I'm Ivy — welcome to Ivy in Manila.</h1>
         <p class="hero-intro">
           I'm serving long‑term in Manila, Philippines with Kids International Ministries. My heart is to invest deeply in relationships, discipleship, and everyday ministry life in the community. This space is where I share updates, stories, prayer needs, and ways you can partner with what God is doing in Manila.
