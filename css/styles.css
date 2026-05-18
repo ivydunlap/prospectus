@@ -770,11 +770,11 @@ footer {
   pointer-events: none;
   background:
     linear-gradient(to bottom,
-      rgba(44, 62, 80, 0.2) 0%,
+      rgba(44, 62, 80, 0.1) 0%,
       rgba(44, 62, 80, 0.02) 25%,
-      rgba(44, 62, 80, 0.02) 45%,
-      rgba(44, 62, 80, 0.5) 80%,
-      rgba(44, 62, 80, 0.8) 100%),
+      rgba(44, 62, 80, 0.15) 45%,
+      rgba(44, 62, 80, 0.6) 80%,
+      rgba(44, 62, 80, 0.9) 100%),
     linear-gradient(135deg,
       rgba(232, 148, 92, 0.08) 0%,
       transparent 60%);
@@ -801,7 +801,7 @@ footer {
   font-size: 1.15rem;
   max-width: 680px;
   line-height: 1.85;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
   animation: carouselFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
@@ -826,6 +826,20 @@ footer {
 .carousel-hero-content .hero-ctas .btn-outline:hover {
   background: rgba(255, 255, 255, 0.15);
   border-color: var(--white);
+}
+.carousel-hero-content h1 {
+  color: var(--white);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  font-size: 3.2rem;
+  margin-bottom: var(--spacing-xl);
+  animation: carouselFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0s both;
+  background: rgba(44, 62, 80, 0.25);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @keyframes carouselFadeUp {

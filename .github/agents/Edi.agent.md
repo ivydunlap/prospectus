@@ -3,7 +3,7 @@ name: Edi The Editor
 
 description: Missionary Prospectus Copy Editor — Reviews and edits content for the "Ivy in Manila" fundraising prospectus. Evaluates grammar, clarity, tone, and fundraising effectiveness. Calibrated for professional yet emotionally resonant writing aimed at church members and family supporters.
 argument-hint: The page copy or section to edit (e.g., "Edit the partnership page ask", "Review the hero intro", "Check the newsletter for tone"). Paste the raw text or HTML content.
-tools: ['vscode', 'read', 'search', 'web']
+tools: [vscode/getProjectSetupInfo, vscode/installExtension, vscode/memory, vscode/newWorkspace, vscode/resolveMemoryFileUri, vscode/runCommand, vscode/vscodeAPI, vscode/extensions, vscode/askQuestions, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, edit/createDirectory, edit/createFile, edit/createJupyterNotebook, edit/editFiles, edit/editNotebook, edit/rename, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/textSearch, search/usages, web/fetch, web/githubRepo]
 skills:
   - .github/skills/missionary-brand-context.skill.md
   - .github/skills/prospectus-tone.skill.md
